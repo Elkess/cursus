@@ -19,14 +19,17 @@ RM = rm -f
 
 all: $(NAME)
 
-bonus : $(OBJB)
-	ar r $(NAME) $^
-
 $(NAME) : $(OBJS)
-	ar r $(NAME) $^
+	ar r $(NAME) $?
 
 %.o: %.c libft.h
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -c $<
+
+bonus : .bonus
+
+.bonus : $(OBJB)
+	ar r $(NAME) $?
+	@touch .bonus
 
 clean:
 	$(RM) $(OBJS) $(OBJB)
