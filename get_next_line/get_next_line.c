@@ -6,7 +6,7 @@
 /*   By: melkess <melkess@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 11:46:59 by melkess           #+#    #+#             */
-/*   Updated: 2024/11/30 16:20:34 by melkess          ###   ########.fr       */
+/*   Updated: 2024/11/30 16:46:31 by melkess          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,12 @@ char	*get_next_line(int fd)
 {
 	static char	*temp;
 	char		*bayd;
-	char		*aid2520;
 	char		*line;
 	int			running;
 
 	if (BUFFER_SIZE <= 0 || fd < 0 || BUFFER_SIZE > __INT_MAX__)
 		return (NULL);
-	line = calloc(BUFFER_SIZE, 1);
+	line = malloc(BUFFER_SIZE +1);
 	if (!line)
 		return (NULL);
 	running = 1;
@@ -44,16 +43,8 @@ char	*get_next_line(int fd)
 		if (temp)
 			bayd = temp;
 		if (running == 0)
-		{
-
-			aid2520 = aid(line);
-			if (aid2520)
-			{
-				free(temp);
-				temp = aid2520;
-			}
+				temp = aid(line);
 		}
-	}
 	free(line);
 	return (bayd);
 }
