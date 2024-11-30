@@ -32,7 +32,7 @@ bonus : .bonus
 	@touch .bonus
 
 clean:
-	$(RM) $(OBJS) $(OBJB)
+	$(RM) $(OBJS) $(OBJB) .bonus
 
 fclean: clean
 	$(RM) $(NAME)
