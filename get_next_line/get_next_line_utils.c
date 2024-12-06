@@ -6,7 +6,7 @@
 /*   By: melkess <melkess@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 11:47:03 by melkess           #+#    #+#             */
-/*   Updated: 2024/11/30 16:21:27 by melkess          ###   ########.fr       */
+/*   Updated: 2024/12/06 15:18:06 by melkess          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,54 @@ size_t	ft_strlen(const char *s)
 	return (i);
 }
 
-char	*ft_strdup( char *s1, int aid)
+char	*ft_strchr(const char *s, int c)
+{
+	while (s && *s)
+	{
+		if (*s == (char) c)
+			return ((char *) s);
+		s++;
+	}
+	if (s && *s == (char) c)
+		return ((char *) s);
+	return (NULL);
+}
+
+char	*ft_substr(char const *s, unsigned int start, size_t len)
+{
+	char	*substr;
+	size_t	i;
+	size_t	lenfromstart;
+
+	if (!s)
+		return (NULL);
+	if (start > ft_strlen(s))
+		return (ft_strdup(""));
+	lenfromstart = ft_strlen(s + start);
+	if (len > lenfromstart)
+		len = lenfromstart;
+	substr = malloc(len +1 * sizeof(char));
+	if (!substr)
+		return (NULL);
+	i = 0;
+	while (i < len)
+	{
+		substr[i] = s[start + i];
+		i++;
+	}
+	substr[i] = '\0';
+	return (substr);
+}
+
+char	*ft_strdup(char *s1)
 {
 	char	*s;
 	size_t	i;
 
 	i = 0;
-	if (!s1)
-		return (NULL);
 	while (s1[i])
 		i++;
-	s = (char *)malloc(i +1);
+	s = (char *)malloc(i +2 * sizeof(char));
 	if (!s)
 		return (NULL);
 	i = 0;
@@ -42,8 +79,6 @@ char	*ft_strdup( char *s1, int aid)
 		i++;
 	}
 	s[i] = '\0';
-	if (aid)
-		free(s1);
 	return (s);
 }
 
@@ -51,42 +86,21 @@ char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*newstr;
 	char	*head;
-	char	*hold;
 
 	if (!s1 && !s2)
 		return (NULL);
 	if (!s1)
-		return (ft_strdup(s2, 0));
+		return (ft_strdup(s2));
 	if (!s2)
-	{
-		return (ft_strdup(s1, 1));
-	}
-	newstr = (char *)malloc(ft_strlen(s1) + ft_strlen(s2) +2);
+		return (ft_strdup(s1));
+	newstr = (char *)malloc(ft_strlen(s1) + ft_strlen(s2) +1 * sizeof(char));
 	if (!newstr)
 		return (NULL);
 	head = newstr;
-	hold = s1;
 	while (*s1)
 		*newstr++ = *s1++;
-	while (*s2 && *s2 != '\n')
+	while (*s2)
 		*newstr++ = *s2++;
-	if (*s2 == '\n')
-		*newstr++ = '\n';
 	*newstr = '\0';
-	free(hold);
 	return (head);
-}
-
-int	is_there_newline(char *s)
-{
-	int	i;
-
-	i = 0;
-	if (!s)
-		return (0);
-	while (i < BUFFER_SIZE && s[i] != '\n')
-		i++;
-	if (s[i] == '\n')
-		return (0);
-	return (1);
 }
